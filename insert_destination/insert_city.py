@@ -1,5 +1,5 @@
 from neo4j import GraphDatabase
-from . import get_coordinates
+from shared_code import get_coordinates
 import os
 
 class Database:

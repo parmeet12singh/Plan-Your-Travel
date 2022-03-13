@@ -41,6 +41,3 @@ class App:
                 destinations.append([j.get('name'), j.get('lat'), j.get('lng')])
 
         return destinations
-
-    def get_properties(self):
-        return self._properties

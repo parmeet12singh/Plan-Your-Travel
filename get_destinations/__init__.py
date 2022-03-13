@@ -1,6 +1,7 @@
 import azure.functions as func
 import json
 from . import read_city
+from shared_code import get_coordinates
 import os
 
 def main(req: func.HttpRequest):
@@ -17,6 +18,9 @@ def main(req: func.HttpRequest):
     if source:
         try:
             source = source.title()
+
+            if(get_coordinates.get_location(source) is None):
+                return func.HttpResponse("No city witht the name "+source+".\nEnter a correct City Name", status_code=404)
             
             app = read_city.App(os.environ['NEO4J_URI'], os.environ['NEO4J_USER'], os.environ['NEO4J_PASSWORD'])
 
