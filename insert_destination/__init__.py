@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from . import read_wikipedia
+from shared_code import get_coordinates
 from . import insert_city
 
 import azure.functions as func
@@ -19,6 +20,9 @@ def main(req: func.HttpRequest):
     if city:
         try:
             city = city.title()
+
+            if(get_coordinates.get_location(city) is None):
+                return func.HttpResponse("No city with the name "+city+".\nEnter a correct City Name", status_code=404)
 
             url = 'https://en.wikipedia.org/wiki/' + city + '_Airport'
             response = requests.get(url).text
