@@ -1,0 +1,49 @@
+Creating a city with properties - 
+MERGE (city:City {name: 'Ranchi', lat: 23.346, lng: 85.313})
+MERGE (city:City {name: 'Bangalore', lat: 13.0328, lng: 77.646})
+MERGE (city:City {name: 'Chennai', lat: 13.086, lng: 80.249})
+MERGE (city:City {name: 'Delhi', lat: 28.564, lng: 77.101})
+MERGE (city:City {name: 'Mumbai', lat: 19.087, lng: 72.872})
+MERGE (city:City {name: 'Bhubaneswar', lat: 20.296, lng: 85.813})
+MERGE (city:City {name: 'Kolkata', lat: 22.591, lng: 88.361})
+MERGE (city:City {name: 'Ahmedabad', lat: 23.033, lng: 72.572})
+MERGE (city:City {name: 'Hyderabad', lat: 17.399, lng: 78.453})
+MERGE (city:City {name: 'Lucknow', lat: 26.847, lng: 80.932})
+MERGE (city:City {name: 'Patna', lat: 25.593, lng: 85.135})
+MERGE (city:City {name: 'Pune', lat: 18.526, lng: 73.855})
+
+----------------------------------------------------------------------
+
+Creating an airline - 
+MERGE (airline:Airline {name: 'AirAsia India'})
+MERGE (airline:Airline {name: 'Air India'})
+MERGE (airline:Airline {name: 'Go First'})
+MERGE (airline:Airline {name: 'IndiGo'})
+MERGE (airline:Airline {name: 'Vistara'})
+
+----------------------------------------------------------------------
+
+Creating Relationships between Airline & City
+MATCH (a:City {name: 'Ranchi'})
+MATCH (b:Airline {name: 'Vistara'})
+MERGE (a)-[c:IS_DESTINATION_OF]->(b)
+MERGE (b)-[d:HAS_OPERATIONS_IN]->(a)
+RETURN a, b, c, d
+
+----------------------------------------------------------------------
+
+Creating Relationships between Airline & City
+MATCH (a:City {name: 'Ranchi'})
+MATCH (b:City {name: 'Delhi'})
+MERGE (a)-[c:HAS_DIRECT_FLIGHT]->(b)
+RETURN a, b, c
+
+MATCH (a:City {name: 'Ranchi'})
+MATCH (b:City {name: 'Delhi'})
+MERGE (b)-[c:HAS_DIRECT_FLIGHT]->(a)
+RETURN a, b, c
+
+----------------------------------------------------------------------
+
+Cypher Query to get a City's connectivity to other cities
+MATCH (n:City {name:'Ranchi'})-[:HAS_DIRECT_FLIGHT]->(m) RETURN n,m
